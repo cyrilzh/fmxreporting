@@ -7,17 +7,15 @@ from typing import Optional, List, Tuple, Dict
 
 # 所有的替换操作都在这里定义，确保您覆盖了所有关键词
 MONTH_REPLACEMENTS: Dict[str, str] = {
-    # 英文 (不区分大小写)
-    "october": "November",
-    "oct": "Nov",
-    # 中文 (不区分大小写)
-    "十月": "十一月",
-    "10月": "11月",
-    # 数字
+    "october": "November", "oct": "Nov",
+    "十月": "十一月", "10月": "11月",
     "10": "11",
+    "8月":"11月",
+    "july":"Nov",
 }
+OCTOBER_KEYWORDS = list(MONTH_REPLACEMENTS.keys())
 
-def find_monthly_xlsx_files(base_path: str, month_keywords: List[str]) -> List[Tuple[str, str]]:
+def find_monthly_xlsx_files(base_path: str) -> List[Tuple[str, str]]:
     """
     在指定路径下递归查找文件名中包含特定月份关键词的 .xlsx 文件，
     并返回文件路径和匹配到的第一个关键词。
@@ -38,7 +36,7 @@ def find_monthly_xlsx_files(base_path: str, month_keywords: List[str]) -> List[T
 
     # 将关键词列表转换为一个用于正则匹配的模式字符串
     # 关键修改：使用非捕获组 (?:...) 并将整个模式放入捕获组 ()，以便找到精确匹配的词
-    pattern_parts = [re.escape(k) for k in month_keywords]
+    pattern_parts = [re.escape(k) for k in OCTOBER_KEYWORDS]
     # 使用 \b 来匹配单词边界，防止 "2010" 匹配到 "10"
     search_pattern = re.compile(
         f".*?({r'|'.join(pattern_parts)}).*?\\.xlsx$", 

@@ -12,12 +12,6 @@ from utility import format_file_list_output
 # -----------------------------------------------------------
 
 # 替换映射表 (从您的代码中复制)
-MONTH_REPLACEMENTS: Dict[str, str] = {
-    "october": "November", "oct": "Nov",
-    "十月": "十一月", "10月": "11月",
-    "10": "11",
-}
-OCTOBER_KEYWORDS = list(MONTH_REPLACEMENTS.keys())
 IMAGE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.pdf') # 包含 .pdf
 FOLD_NAME_FILTER ="NOV"
 
@@ -76,7 +70,7 @@ def automate_monthly_report_prep_final(base_report_dir: str, base_image_dir: str
         print(f"\n>>>> 正在处理报告文件夹: {report_folder_name} (图片源: {image_folder_name}, 相似度: {ratio:.2f}) <<<<")
 
         # --- 2.1 查找 10 月份的 Excel 文件 ---
-        report_files = find_monthly_xlsx_files(current_report_folder_path, OCTOBER_KEYWORDS)
+        report_files = find_monthly_xlsx_files(current_report_folder_path)
         
         if not report_files:
             print("❌ 警告: 未在当前报告子文件夹中找到 10 月份的 XLSX 文件，跳过。")
@@ -87,8 +81,8 @@ def automate_monthly_report_prep_final(base_report_dir: str, base_image_dir: str
         print(f"✅ 找到源 Excel: {os.path.basename(source_excel_path)}")
 
         # --- 2.2 复制并重命名为 11 月版本 ---
-        current_report_folder_path=r"c:\yy\test"
-        # current_report_folder_path=os.path.dirname(source_excel_path)
+        # current_report_folder_path=r"c:\yy\test"
+        current_report_folder_path=os.path.dirname(source_excel_path)
         new_excel_path = copy_and_rename_file(source_excel_path, matched_keyword, current_report_folder_path)
         
         if not new_excel_path:
