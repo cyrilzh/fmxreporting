@@ -1,0 +1,4 @@
+openpyxl
+difflib
+PyMuPDF 
+Pillow
